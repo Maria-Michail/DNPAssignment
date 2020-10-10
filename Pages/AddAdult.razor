@@ -1,0 +1,110 @@
+@page "/adult"
+@using Models;
+@using FileData;
+@inject FileContext fileContext;
+@inject NavigationManager navigationManager;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<AuthorizeView>
+    <h3>Hello @context.User.Identity.Name</h3>
+
+    <h5>Your security level is @context.User.FindFirst(claim => claim.Type.Equals("Level")).Value</h5>
+</AuthorizeView>
+
+<AuthorizeView Policy="SecurityLevel2" Context="Form">
+
+<h1>Add Adult</h1>
+
+<EditForm Model="@newAdult" OnValidSubmit="@addNewAdult">
+<DataAnnotationsValidator/>
+<ValidationSummary/>
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label class="control-label">Id</label>
+                <br/>
+                <p>@getAdultNumber()</p>
+            </div>
+            <div class="form-group">
+                <label class="control-label">First Name</label>
+                <br/>
+                <InputTextArea placeholder="First Name" @bind-Value="newAdult.FirstName"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Last Name</label>
+                <br/>
+                <InputTextArea placeholder="Last Name" @bind-Value="newAdult.LastName"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Hair Color</label>
+                <br/>
+                <InputTextArea placeholder="Hair Color" @bind-Value="newAdult.HairColor"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Eye Color</label>
+                <br/>
+                <InputTextArea placeholder="Eye Color" @bind-Value="newAdult.EyeColor"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Age</label>
+                <br/>
+                <InputNumber placeholder="" @bind-Value="newAdult.Age"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Weight</label>
+                <br/>
+                <InputNumber placeholder="" @bind-Value="newAdult.Weight"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Height</label>
+                <br/>
+                <InputNumber placeholder="" @bind-Value="newAdult.Height"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Sex</label>
+                <br/>
+                <InputTextArea placeholder="" @bind-Value="newAdult.Sex"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Job</label>
+                <br/>
+                <InputTextArea placeholder="" @bind-Value="newAdult.JobTitle"/>
+            </div>
+        </form>
+        <button class="btn btn-primary" type="submit">Add new Adult</button>
+    </div>
+</div>
+</EditForm>
+
+</AuthorizeView>
+
+@code{
+    private Adult newAdult = new Adult();
+    private IList<Family> families;
+    int idNumber = 0;
+    
+    public void addNewAdult(){
+        Family family = new Family();
+        newAdult.Id = getAdultNumber();
+        family.Adults.Add(newAdult);
+        fileContext.Families.Add(family);
+        fileContext.SaveChanges();
+        navigationManager.NavigateTo("/showAdult");
+    }
+    protected override async Task OnInitializedAsync(){
+        families = fileContext.Families;
+        
+    }
+    public int getAdultNumber(){
+        foreach(var item in families){
+            if(item.Adults !=null){
+                foreach(var adul in item.Adults){
+                idNumber++;
+                }
+            }
+        }
+        return idNumber;
+    }
+
+}

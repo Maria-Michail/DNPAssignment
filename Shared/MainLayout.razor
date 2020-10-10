@@ -1,4 +1,7 @@
 ﻿@inherits LayoutComponentBase
+@using LoginComponent
+
+@inject NavigationManager NavigationManager
 
 <div class="sidebar">
     <NavMenu />
@@ -6,10 +9,27 @@
 
 <div class="main">
     <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        <Login/>
+        <NavLink href="about"> About</NavLink>
     </div>
 
     <div class="content px-4">
         @Body
     </div>
 </div>
+
+@code{ 
+
+    [CascadingParameter] protected Task<AuthenticationState> AuthStat { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        var user = (await AuthStat).User;
+        if(!user.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo($"/Login");
+            // NavigationManager.NavigateTo($"/Login?returnUrl={Uri.EscapeDataString(NavigationManager.Uri)}");
+        }
+    }
+}

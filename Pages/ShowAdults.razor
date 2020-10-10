@@ -1,0 +1,84 @@
+@page "/showadult"
+@using Models;
+@using FileData;
+@inject FileContext fileContext;
+
+<h1>All Adults</h1>
+
+<p>
+    Filter by Adult ID: <input type="number" @oninput="@((arg) => Filter(arg))" style="width:50px"/>
+</p>
+
+
+@if (adults == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+        <th>Job Title</th>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Hair Colour</th>
+        <th>Eye Colour</th>
+        <th>Age</th>
+        <th>Weight</th>
+        <th>Height</th>
+        <th>Sex</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in adultsToShow){
+            <tr>
+                <td>@item.JobTitle</td>
+                <td>@item.Id</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                <td>@item.HairColor</td>
+                <td>@item.EyeColor</td>
+                <td>@item.Age</td>
+                <td>@item.Weight</td>
+                <td>@item.Height</td>
+                <td>@item.Sex</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+@code{
+    private List<Adult> adults;
+    private IList<Family> families;
+    private List<Adult> adultsToShow;
+
+    private void Filter(ChangeEventArgs changeEventArgs){
+        int? filterByID = null;
+        try{
+            filterByID = int.Parse(changeEventArgs.Value.ToString());
+        }
+        catch(Exception e){ }
+        if(filterByID!= null){
+            adultsToShow = adults.Where(t => t.Id == filterByID).ToList();
+        }
+        else{
+            adultsToShow = adults;
+        }
+    }
+
+    protected override async Task OnInitializedAsync(){
+        adults = new List<Adult>();
+        families = fileContext.Families;
+        foreach(var item in families){
+            if(item.Adults !=null){
+                foreach(var adul in item.Adults){
+                adults.Add(adul);
+            }
+            }
+        }
+        adultsToShow = adults;
+    }
+}
