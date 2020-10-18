@@ -1,0 +1,53 @@
+@page "/childInterest"
+@using Models;
+@using Assignment.Data;
+@inject IGetFamilies igetfamilies;
+@inject NavigationManager navigationManager;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<AuthorizeView>
+    <h3>Hello @context.User.Identity.Name</h3>
+
+    <h5>Your security level is @context.User.FindFirst(claim => claim.Type.Equals("Level")).Value</h5>
+</AuthorizeView>
+
+<AuthorizeView Policy="SecurityLevel2" Context="Form">
+
+<h1>Add Interest</h1>
+
+<EditForm Model="@childID" OnValidSubmit="@addNewChildInterest">
+<DataAnnotationsValidator/>
+<ValidationSummary/>
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label class="control-label">Child ID</label>
+                <br/>
+                <InputNumber  @bind-Value="childID"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Interest</label>
+                <br/>
+                <InputTextArea placeholder="swimming" @bind-Value="interest"/>
+            </div>     
+        </form>
+        <button class="btn btn-primary" type="submit">Add new Child Interest</button>
+    </div>
+</div>
+</EditForm>
+
+</AuthorizeView>
+
+@code{
+    int childID = 0;
+    string interest = "";
+    public void addNewChildInterest(){
+        igetfamilies.addInterest(childID, interest);
+        navigationManager.NavigateTo("/showadult");
+    }
+    protected override async Task OnInitializedAsync(){
+        
+    }
+
+}

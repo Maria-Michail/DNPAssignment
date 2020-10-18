@@ -1,0 +1,70 @@
+@page "/showfamily"
+@using Models;
+@using FileData;
+@inject FileContext fileContext;
+
+<h1>Find families</h1>
+
+<p>
+    Filter by Family: <input type="text" @oninput="@((arg) => Filter(arg))" style="width:150px"/>
+</p>
+
+
+@if (families == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<table class="table">
+    <thead>
+        <tr>
+        <th>Street Name</th>
+        <th>House Number</th>
+        <th>Number of Adults</th>
+        <th>Number of Children</th>
+        <th>Number of Pets</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in familiesToShow){
+            <tr>
+                <td>@item.StreetName</td>
+                <td>@item.HouseNumber</td>
+                <td>@item.Adults.Count</td>
+                <td>@item.Children.Count</td>
+                <td>@item.Pets.Count</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}
+
+@code{
+    private List<Family> family;
+    private IList<Family> families;
+    private List<Family> familiesToShow;
+
+    private void Filter(ChangeEventArgs changeEventArgs){
+        string? filterByName = null;
+        try{
+            filterByName = changeEventArgs.Value.ToString();
+        }
+        catch(Exception e){ }
+        if(filterByName!= null && !(filterByName.Equals(""))){
+            familiesToShow = family.Where(t => t.StreetName.Equals(filterByName)).ToList();
+        }
+        else{
+            familiesToShow = family;
+        }
+    }
+
+    protected override async Task OnInitializedAsync(){
+        family = new List<Family>();
+        families = fileContext.Families;
+        foreach(var item in families){
+            family.Add(item);
+        }
+        familiesToShow = family;
+    }
+}

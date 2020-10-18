@@ -4,15 +4,15 @@
     "HouseNumber": 1,
     "Adults": [
       {
-        "JobTitle": "Soldier",
+        "JobTitle": "Student",
         "Id": 0,
-        "FirstName": "Eloise",
-        "LastName": "Schneider",
-        "HairColor": "Red",
+        "FirstName": "Maria",
+        "LastName": "Michail",
+        "HairColor": "Brown",
         "EyeColor": "Brown",
-        "Age": 56,
-        "Weight": 33.6,
-        "Height": 138,
+        "Age": 22,
+        "Weight": 55,
+        "Height": 165,
         "Sex": "F"
       },
       {

@@ -1,4 +1,4 @@
-@page "/adult"
+@page "/child"
 @using Models;
 @using Assignment.Data;
 @inject IGetFamilies igetfamilies;
@@ -13,9 +13,9 @@
 
 <AuthorizeView Policy="SecurityLevel2" Context="Form">
 
-<h1>Add Adult</h1>
+<h1>Add Child</h1>
 
-<EditForm Model="@newAdult" OnValidSubmit="@addNewAdult">
+<EditForm Model="@newChild" OnValidSubmit="@addNewChild">
 <DataAnnotationsValidator/>
 <ValidationSummary/>
 <div class="row">
@@ -29,55 +29,50 @@
             <div class="form-group">
                 <label class="control-label">ID</label>
                 <br/>
-                <InputNumber placeholder="Adult ID" @bind-Value="newAdult.Id"/>
+                <InputNumber placeholder="Child ID" @bind-Value="newChild.Id"/>
             </div>
             <div class="form-group">
                 <label class="control-label">First Name</label>
                 <br/>
-                <InputTextArea placeholder="First Name" @bind-Value="newAdult.FirstName"/>
+                <InputTextArea placeholder="First Name" @bind-Value="newChild.FirstName"/>
             </div>
             <div class="form-group">
                 <label class="control-label">Last Name</label>
                 <br/>
-                <InputTextArea placeholder="Last Name" @bind-Value="newAdult.LastName"/>
+                <InputTextArea placeholder="Last Name" @bind-Value="newChild.LastName"/>
             </div>
             <div class="form-group">
                 <label class="control-label">Hair Color</label>
                 <br/>
-                <InputTextArea placeholder="Hair Color" @bind-Value="newAdult.HairColor"/>
+                <InputTextArea placeholder="Hair Color" @bind-Value="newChild.HairColor"/>
             </div>
             <div class="form-group">
                 <label class="control-label">Eye Color</label>
                 <br/>
-                <InputTextArea placeholder="Eye Color" @bind-Value="newAdult.EyeColor"/>
+                <InputTextArea placeholder="Eye Color" @bind-Value="newChild.EyeColor"/>
             </div>
             <div class="form-group">
                 <label class="control-label">Age</label>
                 <br/>
-                <InputNumber placeholder="" @bind-Value="newAdult.Age"/>
+                <InputNumber placeholder="" @bind-Value="newChild.Age"/>
             </div>
             <div class="form-group">
                 <label class="control-label">Weight</label>
                 <br/>
-                <InputNumber placeholder="" @bind-Value="newAdult.Weight"/>
+                <InputNumber placeholder="" @bind-Value="newChild.Weight"/>
             </div>
             <div class="form-group">
                 <label class="control-label">Height</label>
                 <br/>
-                <InputNumber placeholder="" @bind-Value="newAdult.Height"/>
+                <InputNumber placeholder="" @bind-Value="newChild.Height"/>
             </div>
             <div class="form-group">
                 <label class="control-label">Sex</label>
                 <br/>
-                <InputTextArea placeholder="" @bind-Value="newAdult.Sex"/>
-            </div>
-            <div class="form-group">
-                <label class="control-label">Job</label>
-                <br/>
-                <InputTextArea placeholder="" @bind-Value="newAdult.JobTitle"/>
+                <InputTextArea placeholder="" @bind-Value="newChild.Sex"/>
             </div>
         </form>
-        <button class="btn btn-primary" type="submit">Add new Adult</button>
+        <button class="btn btn-primary" type="submit">Add new Child</button>
     </div>
 </div>
 </EditForm>
@@ -85,10 +80,10 @@
 </AuthorizeView>
 
 @code{
-    private Adult newAdult = new Adult();
+    private Child newChild = new Child();
     int familyNumber = 0;
-    public void addNewAdult(){
-        igetfamilies.addNewAdult(newAdult, familyNumber);
+    public void addNewChild(){
+        igetfamilies.addNewChild(newChild, familyNumber);
         navigationManager.NavigateTo("/showadult");
     }
     protected override async Task OnInitializedAsync(){

@@ -1,0 +1,112 @@
+@page "/pet"
+@using Models;
+@using Assignment.Data;
+@inject IGetFamilies igetfamilies;
+@inject NavigationManager navigationManager;
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<AuthorizeView>
+    <h3>Hello @context.User.Identity.Name</h3>
+
+    <h5>Your security level is @context.User.FindFirst(claim => claim.Type.Equals("Level")).Value</h5>
+</AuthorizeView>
+
+<AuthorizeView Policy="SecurityLevel2" Context="Form">
+
+<h1>Add Pet</h1>
+
+<EditForm Model="@newPetForFamily" OnValidSubmit="@addNewPetForFamily">
+<DataAnnotationsValidator/>
+<ValidationSummary/>
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label class="control-label">Family ID (0-@(igetfamilies.allfamilies().Count-1))</label>
+                <br/>
+                <InputNumber  @bind-Value="familyNumber"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">ID</label>
+                <br/>
+                <InputNumber @bind-Value="newPetForFamily.Id"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Species</label>
+                <br/>
+                <InputTextArea placeholder="Labrador" @bind-Value="newPetForFamily.Species"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Name</label>
+                <br/>
+                <InputTextArea placeholder="Name" @bind-Value="newPetForFamily.Name"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Age</label>
+                <br/>
+                <InputNumber @bind-Value="newPetForFamily.Age"/>
+            </div>
+        </form>
+        <button class="btn btn-primary" type="submit">Add new Pet to Family</button>
+    </div>
+</div>
+</EditForm>
+
+
+<EditForm Model="@newPetForChild" OnValidSubmit="@addNewPetForChild">
+<DataAnnotationsValidator/>
+<ValidationSummary/>
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            <div class="form-group">
+                <label class="control-label">Child ID (0-@(igetfamilies.allChildren().Count-1))</label>
+                <br/>
+                <InputNumber  @bind-Value="childNumber"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">ID</label>
+                <br/>
+                <InputNumber placeholder="Pet ID" @bind-Value="newPetForChild.Id"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Species</label>
+                <br/>
+                <InputTextArea placeholder="Labrador" @bind-Value="newPetForChild.Species"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Name</label>
+                <br/>
+                <InputTextArea placeholder="Name" @bind-Value="newPetForChild.Name"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Age</label>
+                <br/>
+                <InputNumber @bind-Value="newPetForChild.Age"/>
+            </div>
+        </form>
+        <button class="btn btn-primary" type="submit">Add new Pet to Child</button>
+    </div>
+</div>
+</EditForm>
+
+</AuthorizeView>
+
+@code{
+    private Pet newPetForFamily = new Pet();
+    private Pet newPetForChild = new Pet();
+    int familyNumber = 0;
+    int childNumber = 0;
+    public void addNewPetForFamily(){
+        igetfamilies.addPetForFamily(newPetForFamily, familyNumber);
+        navigationManager.NavigateTo("/showadult");
+    }
+    public void addNewPetForChild(){
+        igetfamilies.addPetForChild(newPetForChild, childNumber);
+        navigationManager.NavigateTo("/showadult");
+    }
+    protected override async Task OnInitializedAsync(){
+        
+    }
+
+}

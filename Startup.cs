@@ -34,7 +34,8 @@ namespace Assignment
             services.AddServerSideBlazor();
             services.AddScoped<IUserService, InMemoryUserService>();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
-            services.AddSingleton<FileContext>();
+            services.AddScoped<IGetFamilies, GetFamilies>();
+            services.AddScoped<FileContext>();
 
             services.AddAuthorization(options => {
             options.AddPolicy("MustBeVIA",  a => 
