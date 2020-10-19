@@ -5,11 +5,7 @@
 @inject NavigationManager navigationManager;
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<AuthorizeView>
-    <h3>Hello @context.User.Identity.Name</h3>
 
-    <h5>Your security level is @context.User.FindFirst(claim => claim.Type.Equals("Level")).Value</h5>
-</AuthorizeView>
 
 <AuthorizeView Policy="SecurityLevel2" Context="Form">
 
@@ -22,7 +18,7 @@
     <div class="col-md-4">
         <form>
             <div class="form-group">
-                <label class="control-label">Child ID</label>
+                <label class="control-label">Child ID (0-@(igetfamilies.allChildren().Count-1)</label>
                 <br/>
                 <InputNumber  @bind-Value="childID"/>
             </div>
@@ -44,7 +40,7 @@
     string interest = "";
     public void addNewChildInterest(){
         igetfamilies.addInterest(childID, interest);
-        navigationManager.NavigateTo("/showadult");
+        navigationManager.NavigateTo("/showfamily");
     }
     protected override async Task OnInitializedAsync(){
         

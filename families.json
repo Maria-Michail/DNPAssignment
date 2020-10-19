@@ -2432,5 +2432,25 @@
         "Age": 8
       }
     ]
+  },
+  {
+    "StreetName": "Pine Street",
+    "HouseNumber": 3,
+    "Adults": [
+      {
+        "JobTitle": "Student",
+        "Id": 43,
+        "FirstName": "Maria",
+        "LastName": "Michail",
+        "HairColor": "Brown",
+        "EyeColor": "Brown",
+        "Age": 22,
+        "Weight": 52,
+        "Height": 165,
+        "Sex": "F"
+      }
+    ],
+    "Children": [],
+    "Pets": []
   }
 ]

@@ -10,5 +10,9 @@ public class Interest {
     [JsonIgnore]
     public List<ChildInterest> ChildInterests { get; set; }
 
+    public Interest(){
+        ChildInterests = new List<ChildInterest>();
+    }
+
 }
 }

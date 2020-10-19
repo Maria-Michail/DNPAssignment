@@ -14,7 +14,9 @@ public class Family {
     public List<Pet> Pets{ get; set; }
 
     public Family() {
-        Adults = new List<Adult>();     
+        Adults = new List<Adult>();  
+        Children = new List<Child>();
+        Pets = new List<Pet>();   
     }
 
 }

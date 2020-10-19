@@ -6,7 +6,7 @@
 <h1>Find families</h1>
 
 <p>
-    Filter by Family: <input type="text" @oninput="@((arg) => Filter(arg))" style="width:150px"/>
+    Filter by Street Name: <input type="text" @oninput="@((arg) => Filter(arg))" style="width:150px"/>
 </p>
 
 
@@ -41,9 +41,9 @@ else
 }
 
 @code{
-    private List<Family> family;
+    private IList<Family> family;
     private IList<Family> families;
-    private List<Family> familiesToShow;
+    private IList<Family> familiesToShow;
 
     private void Filter(ChangeEventArgs changeEventArgs){
         string? filterByName = null;

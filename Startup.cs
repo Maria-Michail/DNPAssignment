@@ -38,7 +38,7 @@ namespace Assignment
             services.AddScoped<FileContext>();
 
             services.AddAuthorization(options => {
-            options.AddPolicy("MustBeVIA",  a => 
+            options.AddPolicy("MustBeLogged",  a => 
                 a.RequireAuthenticatedUser().RequireClaim("Domain", "via.dk"));
             
             options.AddPolicy("SecurityLevel4",  a => 

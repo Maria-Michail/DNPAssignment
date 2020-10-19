@@ -5,11 +5,7 @@
 @inject NavigationManager navigationManager;
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<AuthorizeView>
-    <h3>Hello @context.User.Identity.Name</h3>
 
-    <h5>Your security level is @context.User.FindFirst(claim => claim.Type.Equals("Level")).Value</h5>
-</AuthorizeView>
 
 <AuthorizeView Policy="SecurityLevel2" Context="Form">
 
@@ -47,7 +43,7 @@
     int familyNumber = 0;
     public void addNewFamily(){
         igetfamilies.addNewFamily(newFamily);
-        navigationManager.NavigateTo("/showadult");
+        navigationManager.NavigateTo("/showfamily");
     }
     protected override async Task OnInitializedAsync(){
         
